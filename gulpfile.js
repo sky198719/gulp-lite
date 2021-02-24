@@ -16,19 +16,19 @@ gulp.task('connect',() => {
 })
 
 gulp.task('pages',() => {
-	return gulp.src('./development/pages/*.html')
+	return gulp.src('./development/pages/*')
 	.pipe(gulpConnect.reload())
 })
 
 gulp.task('css',() => {
-	return gulp.src('./development/template/css/*.scss')
+	return gulp.src('./development/template/css/*')
 	.pipe(gulpSass())
 	.pipe(gulp.dest('development/assets/css'))
 	.pipe(gulpConnect.reload())
 })
 
 gulp.task('js',() => {
-	return gulp.src('./development/template/js/*.js')
+	return gulp.src('./development/template/js/*')
 	.pipe(gulpBabel({presets:['es2015','es2016','es2017'],plugins:[['transform-runtime',{'polyfill':false,'regenerator':true}]]}))
 	.pipe(gulp.dest('development/assets/js'))
 	.pipe(gulpConnect.reload())
@@ -57,6 +57,12 @@ gulp.task('jsBuild',() => {
 	.pipe(gulp.dest('production/assets/js'))
 })
 
+gulp.task('imageBuild',() => {
+	return gulp.src('./development/assets/images/*')
+	.pipe(gulpImagemin())
+	.pipe(gulp.dest('production/assets/images'))
+})
+
 gulp.task('staticBuild',() => {
 	return gulp.src('./development/static/**')
 	.pipe(gulp.dest('production/static'))
@@ -68,4 +74,4 @@ gulp.task('clean',() => {
 })
 
 gulp.task('server',gulp.series('css','js','connect'))
-gulp.task('build',gulp.series('htmlBuild','cssBuild','jsBuild','staticBuild'))
+gulp.task('build',gulp.series('htmlBuild','cssBuild','jsBuild','imageBuild','staticBuild'))

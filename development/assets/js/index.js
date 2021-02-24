@@ -2,7 +2,7 @@
 
 var a = function a() {
 	$('#test').click(function () {
-		alert(111);
+		alert(222);
 	});
 };
 

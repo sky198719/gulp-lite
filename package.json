@@ -15,8 +15,8 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-connect": "^5.7.0",
+    "gulp-imagemin": "^7.1.0",
     "gulp-sass": "^4.1.0",
-    "gulp-uglify": "^3.0.2",
-    "jquery": "^3.5.1"
+    "gulp-uglify": "^3.0.2"
   }
 }
