@@ -1,6 +1,7 @@
 const gulp = require('gulp')
 const gulpSass = require('gulp-sass')
 const gulpCleanCss = require('gulp-clean-css')
+const gulpHtmlMin = require('gulp-htmlmin')
 const gulpUglify = require('gulp-uglify')
 const gulpBabel = require('gulp-babel')
 const gulpImagemin = require('gulp-imagemin')
@@ -49,6 +50,7 @@ gulp.task('watch',() => {
 
 gulp.task('htmlBuild',() => {
 	return gulp.src('./development/pages/*.html')
+	.pipe(gulpHtmlMin({removeComments:true,collapseWhitespace:true,minfyJS:true,minfyCss:true}))
 	.pipe(gulp.dest('production/pages'))
 })
 
