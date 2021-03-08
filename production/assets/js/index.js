@@ -1,1 +1,1 @@
-"use strict";var a=function(){$("#test").click(function(){alert(222)})};a();
+"use strict";var a=function(){$("#test").click(function(){alert("1")})};a();

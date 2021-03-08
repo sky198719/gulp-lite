@@ -4,6 +4,7 @@ const gulpCleanCss = require('gulp-clean-css')
 const gulpUglify = require('gulp-uglify')
 const gulpBabel = require('gulp-babel')
 const gulpImagemin = require('gulp-imagemin')
+const gulpFileInclude = require('gulp-file-include')
 const gulpConnect = require('gulp-connect')
 const gulpClean = require('gulp-clean')
 
@@ -16,28 +17,34 @@ gulp.task('connect',() => {
 })
 
 gulp.task('pages',() => {
-	return gulp.src('./development/pages/*')
+	return gulp.src('./development/template/pages/*')
+	.pipe(gulpFileInclude({
+		prefix:'@@',
+		basepath:'@file'
+	}))
+	.pipe(gulp.dest('development/pages/'))
 	.pipe(gulpConnect.reload())
 })
 
 gulp.task('css',() => {
-	return gulp.src('./development/template/css/*')
+	return gulp.src('./development/template/assets/css/*')
 	.pipe(gulpSass())
 	.pipe(gulp.dest('development/assets/css'))
 	.pipe(gulpConnect.reload())
 })
 
 gulp.task('js',() => {
-	return gulp.src('./development/template/js/*')
+	return gulp.src('./development/template/assets/js/*')
 	.pipe(gulpBabel({presets:['es2015','es2016','es2017'],plugins:[['transform-runtime',{'polyfill':false,'regenerator':true}]]}))
 	.pipe(gulp.dest('development/assets/js'))
 	.pipe(gulpConnect.reload())
 })
 
 gulp.task('watch',() => {
-	gulp.watch('./development/pages/*.html',gulp.series('pages'))
-	gulp.watch('./development/template/css/*.scss',gulp.series('css'))
-	gulp.watch('./development/template/js/*.js',gulp.series('js'))
+	gulp.watch('./development/template/pages/*.html',gulp.series('pages'))
+	gulp.watch('./development/template/pages/components/*.html',gulp.series('pages'))
+	gulp.watch('./development/template/assets/css/*.scss',gulp.series('css'))
+	gulp.watch('./development/template/assets/js/*.js',gulp.series('js'))
 })
 
 gulp.task('htmlBuild',() => {
@@ -73,5 +80,5 @@ gulp.task('clean',() => {
 	.pipe(gulpClean())
 })
 
-gulp.task('server',gulp.series('css','js','connect'))
+gulp.task('server',gulp.series('pages','css','js','connect'))
 gulp.task('build',gulp.series('htmlBuild','cssBuild','jsBuild','imageBuild','staticBuild'))
